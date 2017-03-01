@@ -10,7 +10,7 @@ PID Control
 
 #include "inc/control.h"
 
-int tick_control(int input, system* s)
+double tick_control(double input, system* s)
 {
 	// Calculate Errors on this tick.
 	double current_error;

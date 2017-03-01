@@ -18,6 +18,6 @@ PID Control
 			double e_p, e_i, e_d;
 		} system;
 
-		int tick_control(int input, system* s);
+		double tick_control(double input, system* s);
 
 #endif

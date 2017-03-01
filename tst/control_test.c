@@ -15,16 +15,18 @@ system s1;
 
 double update_system(double input, double s)
 {
-	double max = 0.5;
+	//double max = 20;
 	double a;
-	if (input > max)
-		a = max;
-	else if (input < -max)
-		a = -max;
-	else
-		a = input;
 
-	return s + a;
+	//input *= 1.1;
+	//if (input > max)
+	//	a = max;
+	//else if (input < -max)
+	//	a = -max;
+	//else
+	//	a = input;
+
+	return s + input * 1.61;
 }
 
 int main(void)
@@ -34,12 +36,12 @@ int main(void)
 
 	s1.setpoint = 5;
 	s1.time_period = 1; 
-	s1.o_max = 20;
-	s1.o_min = -20;
-	s1.k_p = 1.5;
-	s1.k_i = 0.3; 
-	s1.k_d = 0.5;
-	s1.i_max = 1;
+	s1.o_max = 200;
+	s1.o_min = -200;
+	s1.k_p = 0.982;
+	s1.k_i = 0.512; 
+	s1.k_d = 0.123;
+	s1.i_max = 2;
 	s1.e_p = 0; 
 	s1.e_i = 0;
 	s1.e_d = 0;
