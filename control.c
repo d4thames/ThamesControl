@@ -10,13 +10,16 @@ PID Control
 
 #include "inc/control.h"
 
+TIR0 = (uint8_t) tick_control(yaw_buffer_pop(), yaw);
+
+
 double tick_control(double input, system* s)
 {
 	// Calculate Errors on this tick.
 	double current_error;
 	current_error = s->setpoint - input;
 	s->e_d = (current_error - s->e_p)/s->time_period;
-	s->e_i += s->e_p * s->time_period;
+	s->e_i += s->k_i * s->e_p * s->time_period;
 	s->e_p =  current_error;
 
 	// Handle Maximum Integral Error
@@ -26,7 +29,7 @@ double tick_control(double input, system* s)
 	// Calculate Output
 	double output;
 	output += s->k_p * s->e_p;
-	output += s->k_i * s->e_i;
+	output += s->e_i; // k_i already applied.l
 	output += s->k_d * s->e_d;
 
 	// Handle Maximum Output
