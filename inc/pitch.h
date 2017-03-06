@@ -8,20 +8,20 @@ Pitch control system.
 
 */
 
-system pitch;
+system pitch_system;
 
-pitch.setpoint = 0;
-pitch.time_period = 0;
+pitch_system.setpoint = 0;
+pitch_system.time_period = 0;
 
-pitch.o_max = 10
-pitch.o_min = -10
+pitch_system.o_max = 10
+pitch_system.o_min = -10
 
-pitch.k_p = 0.3
-pitch.k_i = 0.1
-pitch.k_d = 0.2
+pitch_system.k_p = 0.3
+pitch_system.k_i = 0.1
+pitch_system.k_d = 0.2
 
-pitch.i_max = 1
+pitch_system.i_max = 1
 
-pitch.e_p = 0
-pitch.e_i = 0
-pitch.e_d = 0
+pitch_system.e_p = 0
+pitch_system.e_i = 0
+pitch_system.e_d = 0
