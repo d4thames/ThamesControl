@@ -7,6 +7,7 @@ Control (control.h)
 PID Control
 
 */
+
 #ifndef _CONTROL_H_
 	#define _CONTROL_H_
 
@@ -19,5 +20,7 @@ PID Control
 		} system;
 
 		double tick_control(double input, system* s);
+
+	#include "../control.c"
 
 #endif

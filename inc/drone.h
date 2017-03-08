@@ -1,24 +1,34 @@
-// Include 
-#include "rc-symbols.h"
-#include "control.h"
+/*
 
-// Include System Specifications
-#include "pitch.h"
-#include "roll.h"
-#include "yaw.h"
+Harry Beadle
+D4 Thames
+Drone (drone.h)
 
-// Main Control Loop
-static volatile uint16_t pitch, roll, yaw, thrust;
-static volatile uint8_t pitch_update, roll_update, yaw_update;
-uint8_t pitch_adjust, roll_adjust, yaw_adjust;
-uint8_t rotor1, rotor2, rotor3, rotor4;
-int main(void);
+Headerfile combineing all other modules into a complete system.
 
-// MPU Decoder Communications
-uint8_t temp_byte, control_byte, low_byte, high_byte;
-enum {control, high, low} state, nstate;
-ISR(USART0_RX_vect);
+*/
 
-// Remote Controller Communications
-uint8_t control_code, data_byte;
-ISR(USART1_RX_vect);
+#ifndef _DRONE_H_
+	#define _DRONE_H_
+
+		#include <avr/io.h>
+
+		// Main Control Loop
+		volatile uint16_t pitch, roll, yaw, thrust;
+		volatile uint8_t pitch_update, roll_update, yaw_update;
+		uint8_t pitch_adjust, roll_adjust, yaw_adjust;
+
+		// Include System Specifications
+		#include "control.h"
+		#include "pitch.h"
+		#include "roll.h"
+		#include "yaw.h"
+
+		// Include 
+		#include "rc-symbols.h"
+		#include "comms.h"
+		#include "timer.h"
+
+		int main(void);
+
+#endif

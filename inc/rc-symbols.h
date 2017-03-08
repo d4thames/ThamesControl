@@ -1,5 +1,9 @@
 /*
 
+Harry Beadle
+D4 Thames
+Remote Control Symbols (rc-symbols.h)
+
 Control (n), Data (D), Control Code: 
 00DD DDDD 0x00
 01DD DDDD 0x40
@@ -13,8 +17,8 @@ Control (n), Data (D), Control Code:
 
 		// Remote Control Input Symbols
 		#define S_THROTTLE 0x00
-		#define S_YAW      0x40
 		#define S_PITCH    0x80
 		#define S_ROLL     0xC0
+		#define S_YAW      0x40
 
 #endif

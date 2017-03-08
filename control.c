@@ -10,9 +10,6 @@ PID Control
 
 #include "inc/control.h"
 
-TIR0 = (uint8_t) tick_control(yaw_buffer_pop(), yaw);
-
-
 double tick_control(double input, system* s)
 {
 	// Calculate Errors on this tick.
