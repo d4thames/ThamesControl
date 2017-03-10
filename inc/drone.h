@@ -23,7 +23,7 @@ Headerfile combineing all other modules into a complete system.
 		uint8_t roll_update = 0;
 		uint8_t yaw_update = 0;
 
-		uint8_t pitch_adjust, roll_adjust, yaw_adjust;
+		double pitch_adjust, roll_adjust, yaw_adjust;
 
 		// Include System Specifications
 		#include "control.h"

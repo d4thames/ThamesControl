@@ -19,7 +19,7 @@ PID Control
 			double e_p, e_i, e_d;
 		} system;
 
-		double tick_control(double input, system* s);
+		double tick_control(uint16_t in_value, system* s);
 
 	#include "../control.c"
 

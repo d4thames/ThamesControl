@@ -12,15 +12,15 @@ Roll control system.
 	#define _ROLL_H
 
 		system roll_system = {
-			.setpoint = 327682,
-			.time_period = 0,
+			.setpoint = 0,
+			.time_period = 0.004,
 
-			.o_max = 0,
-			.o_min = 0,
+			.o_max = 150,
+			.o_min = -150,
 
 			.k_p = 10,
-			.k_i = 10,
-			.k_d = 10,
+			.k_i = 0,
+			.k_d = 0,
 
 			.i_max = 1,
 
