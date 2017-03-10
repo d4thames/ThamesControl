@@ -20,14 +20,17 @@ void init_comms(void)
 	// Set Badu Rate.
 	UBRR0H = (F_CPU/(BAUD*16L)-1) >> 8;
 	UBRR1H = (F_CPU/(BAUD*16L)-1) >> 8;
-	UBRR0L = (F_CPU/( BAUD*16L)-1);
-	UBRR1L = (F_CPU/( BAUD*16L)-1);
+	UBRR0L = (F_CPU/(BAUD*16L)-1);
+	UBRR1L = (F_CPU/(BAUD*16L)-1);
 	// Enable Tx, Rx, Tx Interupt, Rx Interupt.
 	UCSR0B = _BV(RXEN0) | _BV(RXCIE0) | _BV(TXEN0) | _BV(TXCIE0);
 	UCSR1B = _BV(RXEN1) | _BV(RXCIE1) | _BV(TXEN1) | _BV(TXCIE1);
 	// 1 Start, 8 Data and 1 Stop bit.
 	UCSR0C = _BV(UCSZ00) | _BV(UCSZ01);
 	UCSR1C = _BV(UCSZ10) | _BV(UCSZ11);
+
+	state = control;
+	nstate = control;
 }
 
 // MPU Decoder
@@ -41,14 +44,23 @@ ISR(USART0_RX_vect)
 			// If valid control bit, store it and go onto the next
 		    // byte, if not keep waiting for a valid one, we *should*
 			// eventually sync up.
-			if ((temp_byte & 0xF0)            // Control Upper Nibble
-				&& (temp_byte & 0x0F <= 3)    // Symbol Nibble <= 3
-				&& (temp_byte & 0x0F >= 1)) { // Symbol Nibble >= 1
-				// Valid Control Byte
-				control_byte = temp_byte;
-				nstate = high;
+//			if (((temp_byte & 0xF0) == 0xF0)            // Control Upper Nibble
+//				&& ((temp_byte & 0x0F) <= 3)    // Symbol Nibble <= 3
+//				&& ((temp_byte & 0x0F) >= 1)) { // Symbol Nibble >= 1
+			bad_control = 1;
+			if ((temp_byte & 0xF0) == 0xF0) {
+				// Top nibble is 0xF
+				if ((temp_byte & 0x0F) != 0x00) {
+					// Data nibble is not 0
+					if ((temp_byte & 0x0F) <= 0x03) {
+						// Data nibble is not above 3
+							bad_control = 0;
+							control_byte = temp_byte;
+							nstate = high;
+					}
+				} 
 			}
-			else {
+			if (bad_control) {
 				// Invalid Control Byte
 				nstate = control;
 			}
@@ -76,6 +88,8 @@ ISR(USART0_RX_vect)
 					yaw = high_byte << 8 | low_byte;
 					yaw_update = 1;
 					break;
+				default:
+					break;
 			}
 			nstate = control;
 			break;
@@ -90,7 +104,9 @@ ISR(USART1_RX_vect)
 	data_byte = 0x3F & temp_byte_rc; 
 	switch (control_code) {
 		case S_THROTTLE:
-			thrust = data_byte;
+			if (data_byte != 0) {
+				thrust = 1495 + data_byte * 25;
+			}
 			break; 
 		case S_PITCH:
 			pitch_system.setpoint = data_byte;

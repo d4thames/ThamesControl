@@ -75,6 +75,8 @@ int main(void)
 	PORTB = 0xFF;
 	DDRD |= (1<<6 | 1<<7);
 	PORTD |= (1<<6 | 1<<7);
+	
+	printf("Initalised\n");
 
 	int d = 1;
 

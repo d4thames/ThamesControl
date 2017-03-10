@@ -21,7 +21,7 @@ Headerfile for UART ISRs and initalisation.
 	#define BAUD 9600
 
 	// MPU Decoder Communications
-	uint8_t temp_byte, control_byte, low_byte, high_byte;
+	uint8_t temp_byte, control_byte, low_byte, high_byte, bad_control;
 	enum {control, high, low} state, nstate;
 	ISR(USART0_RX_vect);
 

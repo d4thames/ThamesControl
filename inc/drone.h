@@ -14,8 +14,15 @@ Headerfile combineing all other modules into a complete system.
 		#include <avr/io.h>
 
 		// Main Control Loop
-		volatile uint16_t pitch, roll, yaw, thrust;
-		volatile uint8_t pitch_update, roll_update, yaw_update;
+		uint16_t thrust = 0;
+		uint16_t pitch = 0;
+		uint16_t roll = 0;
+		uint16_t yaw = 0;
+
+		uint8_t pitch_update = 0;
+		uint8_t roll_update = 0;
+		uint8_t yaw_update = 0;
+
 		uint8_t pitch_adjust, roll_adjust, yaw_adjust;
 
 		// Include System Specifications

@@ -27,40 +27,40 @@ Headerfile for the timers outputting PWM to the motors.
 		} rotor;
 
 		rotor Rotor1 = {
-			.clear_cycle = 220,
-			.clear_position = 5,
+			.clear_cycle = 5,
+			.clear_position = 215,
 			.max_cc = 12,
-			.max_cp = 52,
+			.max_cp = 40,
 			.min_cc = 5,
-			.min_cp = 220
+			.min_cp = 215
 		}; 
 		rotor Rotor2 = {
-			.clear_cycle = 220,
-			.clear_position = 5,
+			.clear_cycle = 5,
+			.clear_position = 215,
 			.max_cc = 12,
-			.max_cp = 52,
+			.max_cp = 40,
 			.min_cc = 5,
-			.min_cp = 220
+			.min_cp = 215
 		}; 
 		rotor Rotor3 = {
-			.clear_cycle = 220,
-			.clear_position = 5,
+			.clear_cycle = 5,
+			.clear_position = 215,
 			.max_cc = 12,
-			.max_cp = 52,
+			.max_cp = 40,
 			.min_cc = 5,
-			.min_cp = 220
+			.min_cp = 215
 		}; 
 		rotor Rotor4 = {
-			.clear_cycle = 220,
-			.clear_position = 5,
+			.clear_cycle = 5,
+			.clear_position = 215,
 			.max_cc = 12,
-			.max_cp = 52,
+			.max_cp = 40,
 			.min_cc = 5,
-			.min_cp = 220
+			.min_cp = 215
 		};
 
 		void init_timer(void);
-		void update_rotor(rotor r, uint16_t value);
+		void update_rotor(rotor* r, uint16_t value);
 
 		ISR(TIMER0_OVF_vect);
 		ISR(TIMER2_OVF_vect);

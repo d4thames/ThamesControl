@@ -31,7 +31,7 @@ Rotor4 Timer2 B     PD6
 #include "inc/drone.h"
 
 int main(void)
-{
+{	
 	// Initalise
 	init_timer();
 	init_comms();
@@ -65,11 +65,25 @@ int main(void)
 			yaw_adjust = 0;
 		}
 		// Update PWM Outputs
-		update_rotor(Rotor1, thrust + pitch_adjust + roll_adjust + yaw_adjust);
-		update_rotor(Rotor2, thrust + pitch_adjust - roll_adjust - yaw_adjust);
-		update_rotor(Rotor3, thrust - pitch_adjust + roll_adjust - yaw_adjust);
-		update_rotor(Rotor4, thrust - pitch_adjust - roll_adjust + yaw_adjust);
+		update_rotor(&Rotor1, thrust 
+								+ pitch_adjust 
+								+ roll_adjust 
+								+ yaw_adjust
+		);
+		update_rotor(&Rotor2, thrust 
+								+ pitch_adjust 
+								- roll_adjust 
+								- yaw_adjust
+		);
+		update_rotor(&Rotor3, thrust 
+								- pitch_adjust 
+								+ roll_adjust 
+								- yaw_adjust
+		);
+		update_rotor(&Rotor4, thrust 
+								- pitch_adjust 
+								- roll_adjust 
+								+ yaw_adjust
+		);
 	}
 }
-
-

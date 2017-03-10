@@ -15,8 +15,8 @@ Yaw control system.
 			.setpoint = 0,
 			.time_period = 0,
 
-			.o_max = 10,
-			.o_min = -10,
+			.o_max = 0,
+			.o_min = 0,
 
 			.k_p = 0.3,
 			.k_i = 0.1,

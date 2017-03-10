@@ -22,24 +22,24 @@ Rotor4 Timer1 B     PD6
 
 #include "inc/timer.h"
 
-void update_rotor(rotor r, uint16_t value)
+void update_rotor(rotor* r, uint16_t value)
 {
-	uint8_t cc = value / 255;
-	uint8_t cp = value % 255;
-	if (cc > r.max_cc) {
-		cc = r.max_cc;
-		if (cp > r.max_cp) {
-			cp = r.max_cp;
+	uint8_t cc = value >> 8;
+	uint8_t cp = value | 0xFF;
+	if (cc > r->max_cc) {
+		cc = r->max_cc;
+		if (cp > r->max_cp) {
+			cp = r->max_cp;
 		}
 	}
-	if (cc < r.min_cc) {
-		cc = r.max_cc;
-		if (cp < r.min_cp) {
-			cp = r.min_cp;
+	if (cc < r->min_cc) {
+		cc = r->min_cc;
+		if (cp < r->min_cp) {
+			cp = r->min_cp;
 		}
 	}
-	r.clear_cycle = cc;
-	r.clear_position = cp;
+	r->clear_cycle = cc;
+	r->clear_position = cp;
 }
 
 void init_timer(void)
@@ -108,20 +108,20 @@ ISR(TIMER2_OVF_vect)
 	n2++;
 	if (n2 == 117) n2 = 0;
 
-	if (n0 == Rotor3.clear_cycle) { 
+	if (n2 == Rotor3.clear_cycle) { 
 		OCR2A = Rotor3.clear_position;
 	}
-	else if (n0 < Rotor3.clear_cycle) {
+	else if (n2 < Rotor3.clear_cycle) {
 		OCR2A = 0xFF;
 	}
 	else {
 		OCR2A = 0x00;
 	}
 
-	if (n0 == Rotor4.clear_cycle) { 
+	if (n2 == Rotor4.clear_cycle) { 
 		OCR2B = Rotor4.clear_position;
 	}
-	else if (n0 < Rotor4.clear_cycle) {
+	else if (n2 < Rotor4.clear_cycle) {
 		OCR2B = 0xFF;
 	}
 	else {
