@@ -23,8 +23,8 @@ Rotor  Timer  Match Pin
 ------ ------ ----- -----
 Rotor1 Timer0 A     PB3
 Rotor2 Timer0 B     PB4
-Rotor3 Timer2 A     PD7
-Rotor4 Timer2 B     PD6
+Rotor3 Timer2 B     PD6
+Rotor4 Timer2 A     PD7
 
 */
 
