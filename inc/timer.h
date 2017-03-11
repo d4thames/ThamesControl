@@ -18,8 +18,8 @@ Headerfile for the timers outputting PWM to the motors.
 		uint8_t n2 = 0;
 
 		typedef struct {
-			uint8_t clear_cycle;
-			uint8_t clear_position;
+			uint8_t clear_cycle, cc_next;
+			uint8_t clear_position, cp_next;
 			uint8_t min_cc;
 			uint8_t min_cp;
 			uint8_t max_cc;

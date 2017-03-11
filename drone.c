@@ -35,7 +35,6 @@ int main(void)
 	// Initalise
 	init_timer();
 	init_comms();
-
 	// Gloally Enable interrupts.
 	sei();
 
@@ -57,7 +56,7 @@ int main(void)
 		else {
 			roll_adjust = 0;
 		}
-		if (yaw_update) {
+		if (0){//(yaw_update) {
 			yaw_adjust = tick_control(yaw, &yaw_system);
 			yaw_update = 0;
 		} 

@@ -21,7 +21,7 @@ double tick_control(uint16_t in_value, system* s)
 
 	// Calculate Errors on this tick.
 	double current_error = s->setpoint - input;
-	s->e_d = (current_error - s->e_p) / s->time_period;
+	s->e_d = (current_error - s->e_p);
 	s->e_i += s->k_i * current_error * s->time_period;
 	s->e_p = current_error;
 

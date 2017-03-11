@@ -38,8 +38,8 @@ void update_rotor(rotor* r, uint16_t value)
 			cp = r->min_cp;
 		}
 	}
-	r->clear_cycle = cc;
-	r->clear_position = cp;
+	r->cc_next = cc;
+	r->cp_next = cp;
 }
 
 void init_timer(void)
@@ -80,7 +80,13 @@ void init_timer(void)
 ISR(TIMER0_OVF_vect)
 {
 	n0++;
-	if (n0 == 117) n0 = 0;
+	if (n0 == 117) {
+		n0 = 0;
+		Rotor1.clear_cycle = Rotor1.cc_next;
+		Rotor1.clear_position = Rotor1.cp_next;
+		Rotor2.clear_cycle = Rotor2.cc_next;
+		Rotor2.clear_position = Rotor2.cp_next;
+	}
 	
 	if (n0 == Rotor1.clear_cycle) { 
 		OCR0A = Rotor1.clear_position;
@@ -106,7 +112,13 @@ ISR(TIMER0_OVF_vect)
 ISR(TIMER2_OVF_vect)
 {
 	n2++;
-	if (n2 == 117) n2 = 0;
+	if (n2 == 117) {
+		n2 = 0;
+		Rotor3.clear_cycle = Rotor3.cc_next;
+		Rotor3.clear_position = Rotor3.cp_next;
+		Rotor4.clear_cycle = Rotor4.cc_next;
+		Rotor4.clear_position = Rotor4.cp_next;
+	}
 
 	if (n2 == Rotor3.clear_cycle) { 
 		OCR2A = Rotor3.clear_position;
@@ -119,7 +131,9 @@ ISR(TIMER2_OVF_vect)
 	}
 
 	if (n2 == Rotor4.clear_cycle) { 
+		PORTB |= _BV(PB0);
 		OCR2B = Rotor4.clear_position;
+		PORTB &= ~_BV(PB0);
 	}
 	else if (n2 < Rotor4.clear_cycle) {
 		OCR2B = 0xFF;
