@@ -41,48 +41,13 @@ int main(void)
 	// Loop Forever
 	while (1) {
 		// Update Control Systems
-		if (pitch_update) {
-			pitch_adjust = tick_control(pitch, &pitch_system);
-			pitch_update = 0;
-		} 
-		else {
-			pitch_adjust = 0;
-		}
-		
-		if (roll_update) {
-			roll_adjust = tick_control(roll, &roll_system);
-			roll_update = 0;
-		} 
-		else {
-			roll_adjust = 0;
-		}
-		if (0){//(yaw_update) {
-			yaw_adjust = tick_control(yaw, &yaw_system);
-			yaw_update = 0;
-		} 
-		else {
-			yaw_adjust = 0;
-		}
-		// Update PWM Outputs
-		update_rotor(&Rotor1, thrust 
-								+ pitch_adjust 
-								+ roll_adjust 
-								+ yaw_adjust
-		);
-		update_rotor(&Rotor2, thrust 
-								+ pitch_adjust 
-								- roll_adjust 
-								- yaw_adjust
-		);
-		update_rotor(&Rotor3, thrust 
-								- pitch_adjust 
-								+ roll_adjust 
-								- yaw_adjust
-		);
-		update_rotor(&Rotor4, thrust 
-								- pitch_adjust 
-								- roll_adjust 
-								+ yaw_adjust
-		);
+		pitch_adjust = tick_control(pitch, &pitch_system);
+		roll_adjust = tick_control(roll, &roll_system);
+		yaw_adjust = tick_control(yaw, &yaw_system);
+		// Update Rotors
+		update_rotor(&Rotor1, thrust + pitch_adjust + roll_adjust + yaw_adjust);
+		update_rotor(&Rotor2, thrust + pitch_adjust - roll_adjust - yaw_adjust);
+		update_rotor(&Rotor3, thrust - pitch_adjust + roll_adjust - yaw_adjust);
+		update_rotor(&Rotor4, thrust - pitch_adjust - roll_adjust + yaw_adjust);
 	}
 }

@@ -18,9 +18,9 @@ void init_comms(void)
 {
 	// Initialise UART0 and UART1
 	// Set Badu Rate.
-	UBRR0H = (F_CPU/(BAUD*16L)-1) >> 8;
+	UBRR0H = (F_CPU/(57600*16L)-1) >> 8;
 	UBRR1H = (F_CPU/(BAUD*16L)-1) >> 8;
-	UBRR0L = (F_CPU/(BAUD*16L)-1);
+	UBRR0L = (F_CPU/(57600*16L)-1);
 	UBRR1L = (F_CPU/(BAUD*16L)-1);
 	// Enable Tx, Rx, Tx Interupt, Rx Interupt.
 	UCSR0B = _BV(RXEN0) | _BV(RXCIE0) | _BV(TXEN0) | _BV(TXCIE0);
@@ -41,29 +41,29 @@ ISR(USART0_RX_vect)
 	temp_byte = UDR0;
 	switch (state) {
 		case control:
+			PORTB |=  _BV(PB0);
 			// If valid control bit, store it and go onto the next
 		    // byte, if not keep waiting for a valid one, we *should*
 			// eventually sync up.
-//			if (((temp_byte & 0xF0) == 0xF0)            // Control Upper Nibble
-//				&& ((temp_byte & 0x0F) <= 3)    // Symbol Nibble <= 3
-//				&& ((temp_byte & 0x0F) >= 1)) { // Symbol Nibble >= 1
-			bad_control = 1;
+			// bad_control = 1;
 			if ((temp_byte & 0xF0) == 0xF0) {
-				// Top nibble is 0xF
-				if ((temp_byte & 0x0F) != 0x00) {
-					// Data nibble is not 0
-					if ((temp_byte & 0x0F) <= 0x03) {
-						// Data nibble is not above 3
-							bad_control = 0;
+			// 	// Top nibble is 0xF
+			// 	if ((temp_byte & 0x0F) != 0x00) {
+			// 		// Data nibble is not 0
+			// 		if ((temp_byte & 0x0F) <= 0x03) {
+			// 			// Data nibble is not above 3
+							// bad_control = 0;
 							control_byte = temp_byte;
 							nstate = high;
-					}
-				} 
+					// }
+				// } 
 			}
-			if (bad_control) {
-				// Invalid Control Byte
-				nstate = control;
-			}
+			// if (bad_control) {
+			// 	// Invalid Control Byte
+			// 	PORTB |= _BV(PB1);
+			// 	nstate = control;
+			// }
+			PORTB &= ~_BV(PB0);
 			break;
 		case high:
 			// Store the high byte, wait for the low byte.

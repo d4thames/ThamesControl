@@ -24,8 +24,10 @@ Rotor4 Timer1 B     PD6
 
 void update_rotor(rotor* r, uint16_t value)
 {
+	// Calculate the clear cycle and position, then
+	// apply it to the given rotor.
 	uint8_t cc = value >> 8;
-	uint8_t cp = value % 256;
+	uint8_t cp = value & 255;
 	if (cc > r->max_cc) {
 		cc = r->max_cc;
 		if (cp > r->max_cp) {
@@ -131,9 +133,7 @@ ISR(TIMER2_OVF_vect)
 	}
 
 	if (n2 == Rotor4.clear_cycle) { 
-		PORTB |= _BV(PB0);
 		OCR2B = Rotor4.clear_position;
-		PORTB &= ~_BV(PB0);
 	}
 	else if (n2 < Rotor4.clear_cycle) {
 		OCR2B = 0xFF;
