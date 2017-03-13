@@ -14,7 +14,7 @@ Headerfile combineing all other modules into a complete system.
 		#include <avr/io.h>
 
 		// Main Control Loop
-		uint16_t thrust = 0;
+		uint16_t thrust = 50000;
 		uint16_t pitch = 0;
 		uint16_t roll = 0;
 		uint16_t yaw = 0;
@@ -34,7 +34,7 @@ Headerfile combineing all other modules into a complete system.
 		// Include 
 		#include "rc-symbols.h"
 		#include "comms.h"
-		#include "timer.h"
+		#include "buffer.h"
 
 		int main(void);
 

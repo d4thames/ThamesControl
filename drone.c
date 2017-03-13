@@ -30,10 +30,35 @@ Rotor4 Timer2 A     PD7
 
 #include "inc/drone.h"
 
+#define S_R1 0xF4
+#define S_R2 0xF5
+#define S_R3 0xF6
+#define S_R4 0xF7
+
+buffer8 rotor_buffer;
+
+void update_rotor(uint8_t r, uint16_t t)
+{
+	while (!(UCSR1A & _BV(UDRE1)));
+	UDR1 = r;
+	while (!(UCSR1A & _BV(UDRE1)));
+	UDR1 = t >> 8;
+	// UDR1 = 0;
+	while (!(UCSR1A & _BV(UDRE1)));
+	UDR1 = t;
+	// UDR1 = 0;
+}
+
+ISR(USART1_TX_vect)
+{
+	if (buffer8_rdy(&rotor_buffer)) {
+		UDR1 = buffer8_pop(&rotor_buffer);
+	}
+}
+
 int main(void)
 {	
 	// Initalise
-	init_timer();
 	init_comms();
 	// Gloally Enable interrupts.
 	sei();
@@ -43,11 +68,11 @@ int main(void)
 		// Update Control Systems
 		pitch_adjust = tick_control(pitch, &pitch_system);
 		roll_adjust = tick_control(roll, &roll_system);
-		yaw_adjust = tick_control(yaw, &yaw_system);
+		//yaw_adjust = tick_control(yaw, &yaw_system);
 		// Update Rotors
-		update_rotor(&Rotor1, thrust + pitch_adjust + roll_adjust + yaw_adjust);
-		update_rotor(&Rotor2, thrust + pitch_adjust - roll_adjust - yaw_adjust);
-		update_rotor(&Rotor3, thrust - pitch_adjust + roll_adjust - yaw_adjust);
-		update_rotor(&Rotor4, thrust - pitch_adjust - roll_adjust + yaw_adjust);
+		update_rotor(S_R1, thrust + pitch_adjust + roll_adjust + yaw_adjust);
+		update_rotor(S_R2, thrust + pitch_adjust - roll_adjust - yaw_adjust);
+		update_rotor(S_R3, thrust - pitch_adjust + roll_adjust - yaw_adjust);
+		update_rotor(S_R4, thrust - pitch_adjust - roll_adjust + yaw_adjust);
 	}
 }

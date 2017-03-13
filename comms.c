@@ -19,9 +19,9 @@ void init_comms(void)
 	// Initialise UART0 and UART1
 	// Set Badu Rate.
 	UBRR0H = (F_CPU/(57600*16L)-1) >> 8;
-	UBRR1H = (F_CPU/(BAUD*16L)-1) >> 8;
+	UBRR1H = (F_CPU/(9600*16L)-1) >> 8;
 	UBRR0L = (F_CPU/(57600*16L)-1);
-	UBRR1L = (F_CPU/(BAUD*16L)-1);
+	UBRR1L = (F_CPU/(9600*16L)-1);
 	// Enable Tx, Rx, Tx Interupt, Rx Interupt.
 	UCSR0B = _BV(RXEN0) | _BV(RXCIE0) | _BV(TXEN0) | _BV(TXCIE0);
 	UCSR1B = _BV(RXEN1) | _BV(RXCIE1) | _BV(TXEN1) | _BV(TXCIE1);
@@ -34,7 +34,7 @@ void init_comms(void)
 }
 
 // MPU Decoder
-ISR(USART0_RX_vect)
+ISR(USART0_RX_vect, ISR_BLOCK)
 {
 	// UART Entry from MPU Decoder
 	state = nstate;
@@ -105,7 +105,7 @@ ISR(USART1_RX_vect)
 	switch (control_code) {
 		case S_THROTTLE:
 			if (data_byte != 0) {
-				thrust = 1495 + data_byte * 25;
+				thrust <<= 11;
 			}
 			break; 
 		case S_PITCH:

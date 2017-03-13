@@ -79,7 +79,7 @@ void init_timer(void)
 
 }
 
-ISR(TIMER0_OVF_vect)
+ISR(TIMER0_OVF_vect, ISR_NOBLOCK)
 {
 	n0++;
 	if (n0 == 117) {
@@ -111,7 +111,7 @@ ISR(TIMER0_OVF_vect)
 	}
 }
 
-ISR(TIMER2_OVF_vect)
+ISR(TIMER2_OVF_vect, ISR_NOBLOCK)
 {
 	n2++;
 	if (n2 == 117) {
